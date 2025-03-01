@@ -26,7 +26,7 @@ import EndingScreen from "./EndingScreen";
  */
 export default function Matrix({ matrix = []}: { matrix: number[][]}) {
     // Environment variables
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
         // Environment variables
     const [stopwatch, setStopwatch] = React.useState(0); // Timer starts at 5
     const [selectedRow, setSelectedRow] = useState<number | null>(null);

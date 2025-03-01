@@ -11,6 +11,9 @@ export default function Difficulty({
     setIsLoading,
     setResponse,
 }: ResponseData) {
+    // Environment variables
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+
     const [difficulty, setLocalDifficulty] = useState("easy");
 
     const handleDifficultyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,7 +29,7 @@ export default function Difficulty({
         try {
             // Fetch the matrix from the backend
             const response = await fetch(
-                `http://localhost:5000/get_matrix?difficulty=${difficulty}`,
+                `${apiUrl}/get_matrix?difficulty=${difficulty}`,
                 {
                     method: 'GET',
                 }

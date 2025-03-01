@@ -25,6 +25,7 @@ import EndingScreen from "./EndingScreen";
  * @returns {JSX.Element} The rendered Matrix component.
  */
 export default function Matrix({ matrix = []}: { matrix: number[][]}) {
+    const apiUrl = process.env.REACT_APP_API_URL || '${apiUrl}';
     // Environment variables
     const [stopwatch, setStopwatch] = React.useState(0); // Timer starts at 5
     const [selectedRow, setSelectedRow] = useState<number | null>(null);
@@ -109,7 +110,7 @@ export default function Matrix({ matrix = []}: { matrix: number[][]}) {
                         },
                     };
     
-                    const response = await fetch(`http://localhost:5000/check_rref`, {
+                    const response = await fetch(`${apiUrl}/check_rref`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

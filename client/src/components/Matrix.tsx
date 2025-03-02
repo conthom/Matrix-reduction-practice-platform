@@ -26,8 +26,9 @@ import EndingScreen from "./EndingScreen";
  */
 export default function Matrix({ matrix = []}: { matrix: number[][]}) {
     // Environment variables
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-        // Environment variables
+    // process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+    const apiUrl = '/api';
+    // Environment variables
     const [stopwatch, setStopwatch] = React.useState(0); // Timer starts at 5
     const [selectedRow, setSelectedRow] = useState<number | null>(null);
     const [selectedRow2, setSelectedRow2] = useState<number | null>(null);
@@ -38,6 +39,7 @@ export default function Matrix({ matrix = []}: { matrix: number[][]}) {
     const [reducedMatrix, setReducedMatrix] = useState<number[][]>([]);
     const [isMatrixReduced, setIsMatrixReduced] = useState(false);
     const [reducedTimer, setReducedTimer] = useState<number | null>(null); // Store the time when matrix is reduced
+    const [isLoadingRref, setIsLoadingRref] = useState(false);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -101,6 +103,7 @@ export default function Matrix({ matrix = []}: { matrix: number[][]}) {
         const fetchReducedOnce = async () => {
             if (reducedMatrix.length === 0) {
                 try {
+                    setIsLoadingRref(true);
                     const shape = [matrix.length, matrix[0].length];
                     const flatData = matrix.flat();
                     const payload = {
@@ -129,6 +132,8 @@ export default function Matrix({ matrix = []}: { matrix: number[][]}) {
                     }
                 } catch (err) {
                     console.error('Error fetching reduced matrix:', err);
+                } finally {
+                    setIsLoadingRref(false);
                 }
             }
         };
@@ -162,6 +167,14 @@ export default function Matrix({ matrix = []}: { matrix: number[][]}) {
         <div className="min-h-screen flex flex-col items-center justify-center relative">
             {isMatrixReduced && <EndingScreen timer={reducedTimer} onRestart={() => setCurrentMatrix(matrix)} />}
             <div className="mb-4 text-lg font-bold">Time: {isMatrixReduced ? reducedTimer : stopwatch}s</div>
+            
+            {isLoadingRref && (
+                <div className="fixed top-0 left-0 right-0 bg-gray-900 bg-opacity-80 text-white py-2 flex items-center justify-center z-50">
+                    <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-blue-500 mr-3"></div>
+                    <span className="text-base font-medium">Calculating RREF for your matrix...</span>
+                </div>
+            )}
+            
             <div className="max-w-2xl w-full bg-gray-800 rounded-lg shadow-md p-6">
             <table className="w-full border-collapse border border-gray-500 text-gray-200 table-fixed">
             <tbody>

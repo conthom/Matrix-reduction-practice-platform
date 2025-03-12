@@ -13,8 +13,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const rrefMatrix = rref(matrix);
     return res.status(200).json({ rref: rrefMatrix });
-  } catch (error: any) {
-    return res.status(500).json({ error: error.message });
+  } catch (error: unknown) {
+    return res.status(500).json({ error: 'An unknown error occurred.' });
   }
 }
 

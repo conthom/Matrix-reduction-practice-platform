@@ -20,7 +20,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
   // Generate a random matrix
   const matrix: number[][] = Array.from({ length: rows }, () =>
-    Array.from({ length: cols }, () => Math.floor(Math.random() * 10))
+    Array.from({ length: cols }, () => Math.floor(Math.random() * 10)),
   );
 
   return res.status(200).json({ matrix });

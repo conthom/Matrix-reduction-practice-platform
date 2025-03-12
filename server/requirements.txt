@@ -1,5 +1,0 @@
-flask
-numpy
-sympy
-gunicorn
-flask-cors

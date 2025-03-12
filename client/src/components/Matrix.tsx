@@ -100,46 +100,37 @@ export default function Matrix({ matrix = []}: { matrix: number[][]}) {
     };
     useEffect(() => {
         // Fetch the reduced matrix only once when the component mounts or the initial matrix changes
-        const fetchReducedOnce = async () => {
-            if (reducedMatrix.length === 0) {
-                try {
-                    setIsLoadingRref(true);
-                    const shape = [matrix.length, matrix[0].length];
-                    const flatData = matrix.flat();
-                    const payload = {
-                        matrix: {
-                            shape: shape,
-                            order: 0,
-                            data: flatData,
-                        },
-                    };
-    
-                    const response = await fetch(`${apiUrl}/check_rref`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(payload),
-                    });
-    
-                    const data = await response.json();
-                    console.log("Reduced matrix response:", data);
-    
-                    if (data.rref && data.rref.length > 0) {
-                        setReducedMatrix(data.rref);
-                    } else {
-                        console.warn("Reduced matrix is empty or undefined:", data);
-                    }
-                } catch (err) {
-                    console.error('Error fetching reduced matrix:', err);
-                } finally {
-                    setIsLoadingRref(false);
-                }
-            }
-        };
-        fetchReducedOnce();
-    }, [matrix]); // Only run when the initial matrix changes
-    
+  const fetchReducedOnce = async () => {
+  if (reducedMatrix.length === 0) {
+    try {
+      const payload = { matrix }; // Send matrix as 2D array
+
+      const response = await fetch(`${apiUrl}/check_rref`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+      console.log("Reduced matrix response:", data);
+
+      if (data.rref && Array.isArray(data.rref)) {
+        setReducedMatrix(data.rref);
+      } else {
+        console.warn("Reduced matrix is empty or undefined:", data);
+      }
+    } catch (err) {
+      console.error('Error fetching reduced matrix:', err);
+    } finally {
+      setIsLoadingRref(false);
+    }
+  }
+    };
+    fetchReducedOnce();
+    }, [currentMatrix]);
+
     useEffect(() => {
         // Check if the matrix is reduced after updates
         if (currentMatrix.length > 0 && reducedMatrix.length > 0) {

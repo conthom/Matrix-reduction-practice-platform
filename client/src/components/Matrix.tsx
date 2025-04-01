@@ -29,7 +29,7 @@ export default function Matrix({ matrix = []}: { matrix: number[][]}) {
     // process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
     const apiUrl = '/api';
     // Environment variables
-    const [stopwatch, setStopwatch] = React.useState(0); // Timer starts at 5
+    const [stopwatch, setStopwatch] = React.useState(0); // Timer starts at 0
     const [selectedRow, setSelectedRow] = useState<number | null>(null);
     const [selectedRow2, setSelectedRow2] = useState<number | null>(null);
     const [selectedOperation, setSelectedOperation] = useState<string | null>(null);
@@ -174,6 +174,7 @@ export default function Matrix({ matrix = []}: { matrix: number[][]}) {
                 className={`hover:bg-gray-400 cursor-pointer ${selectedRow === i ? "bg-gray-500" : ""} ${selectedRow2 === i ? "bg-gray-600" : ""}`}
                 key={i}
                 onClick={() => {
+                    // Control multiple row matrix selection
                 if (selectedRow === i) {
                     if (selectedRow2 !== null){
                     setSelectedRow(selectedRow2);

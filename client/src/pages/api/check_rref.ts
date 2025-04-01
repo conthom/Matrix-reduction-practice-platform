@@ -21,7 +21,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     }
     return res.status(500).json({ error: "An unknown error occurred." });
   }
-
+// Algorithm for finding RREF form of matrix
   function rref(matrix: number[][]): number[][] {
     let lead = 0;
     const rowCount = matrix.length;

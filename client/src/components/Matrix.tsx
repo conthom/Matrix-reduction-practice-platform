@@ -28,7 +28,6 @@ export default function Matrix({ matrix = []}: { matrix: number[][]}) {
     // Environment variables
     // process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
     const apiUrl = '/api';
-    // Environment variables
     const [stopwatch, setStopwatch] = React.useState(0); // Timer starts at 0
     const [selectedRow, setSelectedRow] = useState<number | null>(null);
     const [selectedRow2, setSelectedRow2] = useState<number | null>(null);
